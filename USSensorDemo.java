@@ -6,7 +6,7 @@ import lejos.utility.Delay;
 
 public class USSensorDemo {
 
-	private static EV3UltrasonicSensor us1 = new EV3UltrasonicSensor(SensorPort.S1);
+	private static EV3UltrasonicSensor us1 = new EV3UltrasonicSensor(SensorPort.S4);
 
 	public static void main(String[] args) {
 
