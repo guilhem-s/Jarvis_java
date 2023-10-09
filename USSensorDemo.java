@@ -6,7 +6,24 @@ import lejos.utility.Delay;
 
 public class USSensorDemo {
 
-	private static EV3UltrasonicSensor us1 = new EV3UltrasonicSensor(SensorPort.S4);
+	private EV3UltrasonicSensor ultraSensor;
+
+	public USSensorDemo(SensorPort port){
+		ultraSensor = new EV3UltrasonicSensor(port);
+	}
+
+	public float[] getSample(int seuil){
+		final SampleProvider sp = ultraSensor.getDistance();
+		int distanceValue = 0;
+		for(int i = 0; i < seuil; i++){
+			float[] sample = new float[sp.sampleSize()];
+			sp.fetchSample(sample, 0);
+			distanceValue = (int)sample[0];
+			Delay.msDelay(500);
+		}
+		return sample;
+	}
+	
 
 	public static void main(String[] args) {
 
