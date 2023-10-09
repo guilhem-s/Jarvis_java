@@ -27,7 +27,7 @@ public class DetectionCouleur {
     	
         EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S1);
         if(! colorSensor.isFloodlightOn())  // teste si la lampe est allumée
-        	colorSensor.setFloodlight(Color.WHITE);
+        	colorSensor.setFloodlight(true);
         while (true) {
             int colorID = colorSensor.getColorID();
             System.out.println("Couleur detectee : " + map.get(colorID));
