@@ -12,9 +12,10 @@ public class Position() {
   public static void perpendiculaire(){
     pilot.travel(x);
     float[] distance = new float[5];
-    distance = ultraSensor.getDistance(); // pas sur que ce soit cette fonction
-    pilot.travel(2*x);
-    
+    distance = ultraSensor.getSample(5); // pas sur que ce soit cette fonction
+    pilot.travel(x);
+    distance = ultraSensor.getSample(5); // Faire tourner ces 2 fonctions
+    pilot.travel(x);                     // en même temps    
   }
 }
     
