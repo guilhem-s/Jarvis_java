@@ -1,7 +1,7 @@
 public class CommandePinces {
     public void ouvrirPinces(int angle) {
         
-        int vitesseMoteur = 100;
+        int vitesseMoteur = 1000;
         
         Motor.D.setSpeed(vitesseMoteur);
         Motor.D.rotateTo(angle);
