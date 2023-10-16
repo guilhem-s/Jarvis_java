@@ -24,12 +24,14 @@ public class Capteur {
 	public float[] getSample(int seuil){
 		final SampleProvider sp = ultraSensor.getDistanceMode();
 		int distanceValue = 0;
+		float []samples = new float [seuil];
 		for(int i = 0; i < seuil; i++){
 			float[] sample = new float[sp.sampleSize()];
 			sp.fetchSample(sample, 0);
 			distanceValue = (int)sample[0];
+			samples[i] = distanceValue;
 			Delay.msDelay(500);
 		}
-		return null;  // A changer
+		return samples;  
 	}
 }
