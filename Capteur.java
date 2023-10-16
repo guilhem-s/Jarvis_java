@@ -34,4 +34,5 @@ public class Capteur {
 		}
 		return samples;  
 	}
+	
 }
