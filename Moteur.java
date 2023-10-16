@@ -15,10 +15,10 @@ import lejos.robotics.chassis.*;
 
 public class Moteur {
 	
-	private static final int RAPIDE = 90;
-	private static final int LENT = 45;
+	private static final int RAPIDE = 1000;
+	private static final int LENT = 100;
 	private static final int RECHERCHE = 30;
-	private static final double DIAMETRE = 2.2;
+	private static final double DIAMETRE = 5.6;
 	private MovePilot pilot;
 	
 	public Moteur () {
@@ -28,7 +28,7 @@ public class Moteur {
 		pilot = new MovePilot(chassis);
 	}
 	
-	public MovePilot pilote() {
+	public MovePilot getPilot() {
 		return pilot;
 	}
 	
