@@ -1,6 +1,5 @@
 package S5;
 
-import lejos.hardware.port.Port;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
@@ -10,16 +9,23 @@ import lejos.utility.Delay;
 
 public class Capteur {
 	
-	private EV3UltrasonicSensor ultraSensor;
+	private EV3UltrasonicSensor ultrason;
 	private EV3TouchSensor touche;
 	private EV3ColorSensor couleur;
 
-	public Capteur (SensorPort port){
-		ultraSensor = new EV3UltrasonicSensor(((UARTPort) 4);
-		touche = new EV3TouchSensor((Port)port);
-		couleur = new EV3ColorSensor()
+	public Capteur (){
+		ultrason = new EV3UltrasonicSensor(SensorPort.S4);
+		touche = new EV3TouchSensor(SensorPort.S3);
+		couleur = new EV3ColorSensor(SensorPort.S1);
 		
 	}
+	public int echantillon() {
+		final SampleProvider sp = ultrason.getDistanceMode();
+		float[] sample = new float[sp.sampleSize()];
+		sp.fetchSample(sample, 0);
+		return (int) sample[0];
+	}
+
 
 	public float[] getSample(int seuil){
 		final SampleProvider sp = ultraSensor.getDistanceMode();
