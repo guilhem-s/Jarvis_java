@@ -15,9 +15,9 @@ import lejos.robotics.chassis.*;
 
 public class Moteur {
 	
-	private static final int RAPIDE = 1000;
+	private static final int RAPIDE = 1500;
 	private static final int LENT = 100;
-	private static final int RECHERCHE = 30;
+	private static final int RECHERCHE = 100;
 	private static final double DIAMETRE = 5.6;
 	private MovePilot pilot;
 	
@@ -34,5 +34,9 @@ public class Moteur {
 	
 	public void tourner(int angle) {
 		pilot.rotate(angle);		
+	}
+
+	public void vitesseRot(){
+		pilot.setAngularSpeed(RECHERCHE);
 	}
 }
