@@ -14,7 +14,7 @@ public class Fonctionnalite {
 	
 	public void perpendiculaire_apres_essai() {
 		int d1, d2;
-		
+		m.viteseRot(5);
 		d1 = c.echantillon();		
 		m.tourner(5);
 		Delay.msDelay(500);
