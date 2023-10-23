@@ -36,7 +36,7 @@ public class Moteur {
 		pilot.rotate(angle);		
 	}
 
-	public void vitesseRot(){
-		pilot.setAngularSpeed(RECHERCHE);
+	public void vitesseRot(double s){
+		pilot.setAngularSpeed(s);
 	}
 }
