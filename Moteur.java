@@ -39,4 +39,10 @@ public class Moteur {
 	public void vitesseRot(double s){
 		pilot.setAngularSpeed(s);
 	}
+	public void avancer(double distance) {
+		pilot.travel(distance);
+	}
+	public void avancerSync(double distance){
+		pilot.travel(distance,true);
+	}
 }
