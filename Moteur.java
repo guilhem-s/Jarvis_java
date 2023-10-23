@@ -74,4 +74,11 @@ public class Moteur {
 
 	        Motor.D.stop();
 	    }
+	 public boolean isMoving() {
+		 return pilot.isMoving();
+		 }
+	 public void stop() {
+		 pilot.stop();
+	 }
+}
 }
