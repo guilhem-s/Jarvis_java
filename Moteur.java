@@ -33,16 +33,45 @@ public class Moteur {
 	}
 	
 	public void tourner(int angle) {
+		pilot.setAngularSpeed(5);
 		pilot.rotate(angle);		
 	}
-
-	public void vitesseRot(double s){
+	
+	public void tournerSync(int angle) {
+		pilot.rotate(angle, true);
+	}
+	public void changerVitLin(double s) {
+		pilot.setLinearSpeed(s);
+	}
+	public void changerVitRot(double s) {
 		pilot.setAngularSpeed(s);
 	}
 	public void avancer(double distance) {
 		pilot.travel(distance);
 	}
-	public void avancerSync(double distance){
-		pilot.travel(distance,true);
+	public void avancerSync(double distance) {
+		pilot.travel(distance, true);
 	}
+	public void ouvrirPinces(int angle) {
+
+	        int vitesseMoteur = 1000;
+
+	        Motor.D.setSpeed(vitesseMoteur);
+	        Motor.D.rotateTo(angle);;
+	        while (Motor.D.isMoving()) {
+	            Delay.msDelay(100); // Wait for 100 milliseconds
+	        }
+	        Motor.D.stop();
+	    }
+	 public void fermerPinces(int angle) {
+
+	        int vitesseMoteur = 1000;
+
+	        Motor.D.setSpeed(vitesseMoteur);
+	        Motor.D.rotate(-angle);
+
+	        Delay.msDelay(2000); 
+
+	        Motor.D.stop();
+	    }
 }
