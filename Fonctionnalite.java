@@ -100,6 +100,45 @@ public class Fonctionnalite {
 			
 		
 	}
+
+
+	public void versPalet(float seuilDetection) { // a voir quelle méthode est la meilleure
+		while (true) {
+			float distanceDetectee = c.echantillon();
+			if (distanceDetectee < seuilDetection) {
+				System.out.println("palet détecté");
+				while (!Button.ENTER.isDown()) {
+					if (c.echantillon() == 1.00) {
+						m.fermerPinces(1600);
+						break;
+					}
+
+				}
+				Delay.msDelay(500);
+			}
+		}
+	}
+	
+	public int[] detecterPalet(float[] tab) {
+		/* Fonctions qui va détecter les grands écarts entre valeurs voisines du tableau pour les répertorier 
+		 * Ces positions seront potentielles et un autre test avec un capteur devra être efféctué afin d'assure
+		 * la vraie présence d'un palet
+		 */
+		int[] positions_potentielles = new int[tab.length];
+		int compteur = 0;
+		for(int i = 1; i < tab.length - 1; i++)
+			if(Math.abs(tab[i-1] - tab[i]) > 10 && Math.abs(tab[i] - tab[i+ 1])> 10 && tab[i]<120 && tab[i]>32) {
+				positions_potentielles[compteur] = i;
+				compteur++;
+			}
+		return positions_potentielles;
+		}
+	
+	public float[] creation_tab() {
+		m.changerVitRot(36);
+		m.tournerSync(180);
+		return c.getSample(10);
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Fonctionnalite f = new Fonctionnalite();
