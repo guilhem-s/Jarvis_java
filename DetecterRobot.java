@@ -7,19 +7,20 @@ import lejos.utility.Delay;
 
 public class DetecterRobot {
 
-		private static EV3UltrasonicSensor us1 = new EV3UltrasonicSensor(SensorPort.S4);
+	private static EV3UltrasonicSensor us1 = new EV3UltrasonicSensor(SensorPort.S4);
 
 	public static void main(String[] args) {
 
-
-		
 		final SampleProvider sp = us1.getListenMode();
 		int Value = 0;
-
+		
+	// nombre d'itérations pour mesurer la distance
         final int iteration_threshold = 100;
+		
+	//mesurer la distance à chaque itération
         for(int i = 0; i <= iteration_threshold; i++) {
 
-        	float [] sample = new float[sp.sampleSize()];
+            float [] sample = new float[sp.sampleSize()];
             sp.fetchSample(sample, 0);
             Value = (int)sample[0];
 
