@@ -53,12 +53,13 @@ public class Perpendiculaire {
 			  }
 		  System.out.println("minimuuum"+tab[i]);
 		  Delay.msDelay(3000);
-		  m.changerVitRot(360); if(i<=20) { m.tourner((int) (i*4.5)); }else m.tourner((int) (i*4.5-360));
-		 
-		
-		
-		
-		
+		  m.changerVitRot(360); 
+		  if(i<=20) { 
+			  m.tourner((int) (i*4.5)); 
+		  }
+		  else {
+			  m.tourner((int) (i*4.5-360));
+		  }
 		m.stop();
 		
 }
