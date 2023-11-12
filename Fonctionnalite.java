@@ -139,6 +139,16 @@ public class Fonctionnalite {
 		m.tournerSync(180);
 		return c.getSample(10);
 	}
+	public void ramenePalet() {
+		/*une fois le palet récupéré, le ramène dans le camp
+		 * rotateTo (180° - (angle du palet) + 90°)
+		 * Ensuite avance jusqu'à détecter une ligne blanche
+		 */		
+		m.changerVitRot(36);
+		m.tourner(180 - (angle_palet + 90));
+		c.vers_ligne_arrivee();		
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Fonctionnalite f = new Fonctionnalite();
