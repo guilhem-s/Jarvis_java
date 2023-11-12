@@ -16,41 +16,47 @@ public class Fonctionnalite {
 		c = new Capteur();
 	}
 	public void perpendiculaire_apres_essai() {
-		/*for(int i=0; i<100;i++) {System.out.println(c.echantillon()*100);
-		Delay.msDelay(1000);
-		if(Button.ENTER.isDown())break;}}*/
-		float d1, d2;
-		m.changerVitRot(80);
+		
+		float d1, d2;		
+		m.changerVitRot(90);
 		d1 = c.echantillon();		
-		m.tourner(15);
-		Delay.msDelay(500);
+		m.tourner(ANGLE_BALAYAGE);
+		Delay.msDelay(200);
 		d2 = c.echantillon();
-		System.out.println(d1+" "+d2+ " ");
+		System.out.println("d1 = " +d1+ " d2 = "+d2);
 		Delay.msDelay(1000);
-		if (d1 < d2) {
-			m.tourner(-30);
+		if (d1 > d2) {
+			System.out.print("continue dans le meme sens");
+			m.tournerSync(90);
 			d1 = d2;
 			d2 = c.echantillon();
-			while(d1 > d2) { 
-				m.tourner(-15);
-				Delay.msDelay(100);
+			System.out.println("d1 = " +d1+ " d2 = "+d2);
+			while(d1 >=d2) {
+				System.out.print("Rentre dans la boucle");
+				Delay.msDelay(250);
 				d1 = d2;
 				d2 = c.echantillon();
-				System.out.println(d1+" "+d2+ " ");
-			}
-			Delay.msDelay(5000);
-			m.tourner(15);
-		}}
-		 /*else {
+				System.out.println("d1 = " +d1+ " d2 = "+d2);
+			}			
+			m.stop();
+			Delay.msDelay(40000);
+		} else {
+			System.out.print("Change de sens");
+			m.tournerSync(-90);
+			Delay.msDelay(500);
+			d1 = d2;
+			d2 = c.echantillon();
 			while (d1 > d2) {
-				m.tourner(5);
+				System.out.print("Rentre dans la boucle");
+				Delay.msDelay(250);
 				d1 = d2;
-				Delay.msDelay(100);
 				d2 = c.echantillon();
-				System.out.println(d2+ " ");
 			}
-		m.tourner(-5);
-		}*/
+			
+			m.stop();
+			Delay.msDelay(40000);
+		}
+	}
 	
 	public void attraperPalet() {
 		c.getTouche();
