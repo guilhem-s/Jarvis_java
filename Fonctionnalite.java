@@ -58,30 +58,44 @@ public class Fonctionnalite {
 		}
 	}
 	
-public boolean ecartImp(float[] tab,int i) {
-	if(Math.abs(tab[i-1] - tab[i]) > 10 && Math.abs(tab[i] - tab[i+ 1])> 10) {
-		return true;
+	public boolean ecartImp(float[] tab,int i) {
+		if(Math.abs(tab[i-1] - tab[i]) > 10 && Math.abs(tab[i] - tab[i+ 1])> 10) {
+			return true;
+		}
+		return false;
+	    }
+	
+	public boolean estDansLaPortee(float[] tab, int i) {
+	    if(tab[i]<120 && tab[i]>32){
+	    	return true;
+	    	}
+	    return false;
+	        }
+	int angle_de_balayage  = 360; // cet angle peut varier selon les situations
+	public List<Float> detecterPalet(float[] tab, int angle_de_balayage) {
+	    List<Float> positions_potentielles = new ArrayList<>();
+	    for (int i = 1; i < tab.length - 1; i++) {
+	        if (ecartImp(tab, i) && estDansLaPortee(tab, i)) {
+	            positions_potentielles.add((float) (i * angle_de_balayage) / tab.length);
+	        }
+	    }
+	    return positions_potentielles;
 	}
-	return false;
-    }
-
-public boolean estDansLaPortee(float[] tab, int i) {
-    if(tab[i]<120 && tab[i]>32){
-    	return true;
-    	}
-    return false;
-        }
-int angle_de_balayage  = 360; // cet angle peut varier selon les situations
-public List<Float> detecterPalet(float[] tab, int angle_de_balayage) {
-    List<Float> positions_potentielles = new ArrayList<>();
-    for (int i = 1; i < tab.length - 1; i++) {
-        if (ecartImp(tab, i) && estDansLaPortee(tab, i)) {
-            positions_potentielles.add((float) (i * angle_de_balayage) / tab.length);
-        }
-    }
-    return positions_potentielles;
-}
-}
+	}
+	public boolean cestUnPalets(float[] tab,List<Float> positions_potentielles,int angle_de_balayage) {
+		float minimum = positions_potentielles.get(0); 
+		for (float i : positions_potentielles) {
+			if (i < minimum) {
+				minimum = i;
+				}
+			}
+		if (minimum <= 180) {
+			m.tourner((int) minimum);
+		}
+		m.tourner((int) minimum-360);
+		double distance = (double) tab[(int) ((minimum * tab.length)/ angle_de_balayage)];
+		m.avancer(distance);	
+	}
 	public void attraperPalet() {
 		c.getTouche();
         SampleProvider touchProvider = c.getTouche().getTouchMode();
