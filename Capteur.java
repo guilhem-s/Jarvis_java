@@ -25,7 +25,7 @@ public class Capteur {
 		final SampleProvider sp = ultrason.getDistanceMode();
 		float[] sample = new float[sp.sampleSize()];
 		sp.fetchSample(sample, 0);
-		float result = sample[0]*1000;
+		float result = sample[0]*100;
 		return  (int) result;
 	}
 
