@@ -58,6 +58,30 @@ public class Fonctionnalite {
 		}
 	}
 	
+public boolean ecartImp(float[] tab,int i) {
+	if(Math.abs(tab[i-1] - tab[i]) > 10 && Math.abs(tab[i] - tab[i+ 1])> 10) {
+		return true;
+	}
+	return false;
+    }
+
+public boolean estDansLaPortee(float[] tab, int i) {
+    if(tab[i]<120 && tab[i]>32){
+    	return true;
+    	}
+    return false;
+        }
+int angle_de_balayage  = 360; // cet angle peut varier selon les situations
+public List<Float> detecterPalet(float[] tab, int angle_de_balayage) {
+    List<Float> positions_potentielles = new ArrayList<>();
+    for (int i = 1; i < tab.length - 1; i++) {
+        if (ecartImp(tab, i) && estDansLaPortee(tab, i)) {
+            positions_potentielles.add((float) (i * angle_de_balayage) / tab.length);
+        }
+    }
+    return positions_potentielles;
+}
+}
 	public void attraperPalet() {
 		c.getTouche();
         SampleProvider touchProvider = c.getTouche().getTouchMode();
