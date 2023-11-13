@@ -81,7 +81,7 @@ public class Fonctionnalite {
 	    }
 	    return positions_potentielles;
 	}
-	}
+	
 	public boolean cestUnPalets(float[] tab,List<Float> positions_potentielles,int angle_de_balayage) {
 		float minimum = positions_potentielles.get(0); 
 		for (float i : positions_potentielles) {
