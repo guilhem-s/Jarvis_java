@@ -149,20 +149,6 @@ public List<Float> detecterPalet(float[] tab, int angle_de_balayage) {
 		}
 	}
 	
-	public int[] detecterPalet(float[] tab) {
-		/* Fonctions qui va détecter les grands écarts entre valeurs voisines du tableau pour les répertorier 
-		 * Ces positions seront potentielles et un autre test avec un capteur devra être efféctué afin d'assure
-		 * la vraie présence d'un palet
-		 */
-		int[] positions_potentielles = new int[tab.length];
-		int compteur = 0;
-		for(int i = 1; i < tab.length - 1; i++)
-			if(Math.abs(tab[i-1] - tab[i]) > 10 && Math.abs(tab[i] - tab[i+ 1])> 10 && tab[i]<120 && tab[i]>32) {
-				positions_potentielles[compteur] = i;
-				compteur++;
-			}
-		return positions_potentielles;
-		}
 	
 	public float[] creation_tab() {
 		m.changerVitRot(36);
