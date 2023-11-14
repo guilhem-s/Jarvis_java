@@ -1,6 +1,5 @@
 package S5;
 
-import lejos.hardware.Button;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
@@ -11,14 +10,14 @@ import lejos.utility.Delay;
 public class Capteur {
 
 	private EV3UltrasonicSensor ultrason;
-	private EV3TouchSensor touche;
-	private EV3ColorSensor couleur;
+	private EV3TouchSensor toucher;
+	private EV3ColorSensor capcouleur;
 	Moteur m;
 
 	public Capteur (){
 		ultrason = new EV3UltrasonicSensor(SensorPort.S4);
-		touche = new EV3TouchSensor(SensorPort.S3);
-		couleur = new EV3ColorSensor(SensorPort.S2);
+		toucher = new EV3TouchSensor(SensorPort.S3);
+		capcouleur = new EV3ColorSensor(SensorPort.S2);
 
 	}
 	public int echantillon() {
@@ -43,22 +42,16 @@ public class Capteur {
 		return distanceValue;  // A changer
 	}
 
-	public void vers_ligne_arrivee() {
-		if(! couleur.isFloodlightOn())  // teste si la lampe est allumée
-			couleur.setFloodlight(true);
-		while (true) {
-			m.avancerSync(100);
-			int colorID = couleur.getColorID();
-			if (colorID == 6) break;
-			try {
-				Thread.sleep(250); // Attendre 0,25 seconde entre les mesures
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if(Button.ENTER.isDown())break;
-		}
-		m.stop();
-		couleur.close();
+	
+	public EV3TouchSensor getTouche() {
+		// TODO Auto-generated method stub
+		return toucher;
+	}
+	public EV3UltrasonicSensor getUltrason() {
+		return ultrason;
+	}
+	public EV3ColorSensor getCapcouleur() {
+		return capcouleur;
 	}
 
 }
