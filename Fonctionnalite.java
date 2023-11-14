@@ -82,7 +82,7 @@ public class Fonctionnalite {
 	    return positions_potentielles;
 	}
 	
-	public boolean avancerVersPalet(float[] tab,List<Float> positions_potentielles,int angle_de_balayage) {
+	public void avancerVersPalet(float[] tab,List<Float> positions_potentielles,int angle_de_balayage) {
 		float minimum = positions_potentielles.get(0); 
 		for (float i : positions_potentielles) {
 			if (i < minimum) {
