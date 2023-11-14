@@ -1,12 +1,7 @@
 package S5;
 
-import lejos.hardware.BrickFinder;
-import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.motor.Motor;
 import lejos.utility.Delay;
-import lejos.hardware.port.MotorPort;
-import lejos.hardware.port.Port;
-import lejos.hardware.port.SensorPort;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
@@ -80,5 +75,4 @@ public class Moteur {
 	 public void stop() {
 		 pilot.stop();
 	 }
-}
 }
