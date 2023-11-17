@@ -59,14 +59,27 @@ public class Fonctionnalite {
 			Delay.msDelay(40000);
 		}
 	}
-
+	public float measureDistance() {
+	        SampleProvider d = ultrasonicSensor.getDistanceMode();
+	        float[] sample = new float[d.sampleSize()];
+	        d.fetchSample(sample, 0);
+	        return sample[0] * 100; 
+    	}
+	public float[] distanceTourne(int angle_de_balayage) {
+	        m.tourner(angle_de_balayage);
+	        float[] distances = new float[tab.length];
+	        for (int i = 0; i < tab.length; i++) {
+	            distances[i] = measureDistance(); 
+	        }
+	        return distances;
+    	}
 	public boolean ecartImp(float[] tab, int i) {
 		if (Math.abs(tab[i - 1] - tab[i]) > 10 && Math.abs(tab[i] - tab[i + 1]) > 10) {
 			return true;
 		}
 		return false;
 	}
-
+	
 	public boolean estDansLaPortee(float[] tab, int i) {
 		if (tab[i] < 120 && tab[i] > 32) {
 			return true;
@@ -85,7 +98,15 @@ public class Fonctionnalite {
 		}
 		return positions_potentielles;
 	}
-
+	public void auPalet(float[] tab) {
+	        int angle_de_balayage = 360;
+	        List<Float> positions_potentielles = detecterPalet(tab, angle_de_balayage);
+	        if (!positions_potentielles.isEmpty()) {
+	            avancerVersPalet(tab, positions_potentielles, angle_de_balayage);
+	        } else {
+	            System.out.println("No potential positions found.");
+	        }
+    	}
 	public void avancerVersPalet(float[] tab, List<Float> positions_potentielles, int angle_de_balayage) {
 		float minimum = positions_potentielles.get(0);
 		for (float i : positions_potentielles) {
