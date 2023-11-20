@@ -58,19 +58,11 @@ public class Fonctionnalite {
 			m.stop();
 			Delay.msDelay(40000);
 		}
-	}
-	public float measureDistance() {
-	        SampleProvider d = ultrasonicSensor.getDistanceMode();
-	        float[] sample = new float[d.sampleSize()];
-	        d.fetchSample(sample, 0);
-	        return sample[0] * 100; 
-    	}
+	} 
+	
 	public float[] distanceTourne(int angle_de_balayage) {
-	        m.tourner(angle_de_balayage);
-	        float[] distances = new float[tab.length];
-	        for (int i = 0; i < tab.length; i++) {
-	            distances[i] = measureDistance(); 
-	        }
+	        m.tournerSync(angle_de_balayage);
+	        float[] distances = c.getSample(360, 200);
 	        return distances;
     	}
 	public boolean ecartImp(float[] tab, int i) {
@@ -100,7 +92,8 @@ public class Fonctionnalite {
 	}
 	public void auPalet(float[] tab) {
 	        int angle_de_balayage = 360;
-	        List<Float> positions_potentielles = detecterPalet(tab, angle_de_balayage);
+		float[] distances = f.distanceTourne(angle_de_balayage);
+	        List<Float> positions_potentielles = detecterPalet(distances, angle_de_balayage);
 	        if (!positions_potentielles.isEmpty()) {
 	            avancerVersPalet(tab, positions_potentielles, angle_de_balayage);
 	        } else {
