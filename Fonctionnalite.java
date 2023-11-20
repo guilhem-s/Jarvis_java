@@ -60,18 +60,29 @@ public class Fonctionnalite {
 		}
 	} 
 	
-	public float[] distanceTourne(int angle_de_balayage) {
-	        m.tournerSync(angle_de_balayage);
-	        float[] distances = c.getSample(360, 200);
-	        return distances;
-    	}
+		public float[] distanceTourne(int angle_de_balayage) {
+		/*
+		 * Creer un set de données sur (angle_de_balayage) degrés et 
+		 * générer des données tous les (delay) millisecondes
+		 */
+		m.changerVitRot(5);
+		m.tournerSync(angle_de_balayage);
+		float[] distances = new float[angle_de_balayage];
+		int i = 0;
+		while(m.isMoving()) {
+			distances[i] = c.echantillon();
+			Delay.msDelay(200);
+			i++;
+		}
+		return distances;
+	}
 	public boolean ecartImp(float[] tab, int i) {
 		if (Math.abs(tab[i - 1] - tab[i]) > 10 && Math.abs(tab[i] - tab[i + 1]) > 10) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean estDansLaPortee(float[] tab, int i) {
 		if (tab[i] < 120 && tab[i] > 32) {
 			return true;
@@ -82,37 +93,42 @@ public class Fonctionnalite {
 	int angle_de_balayage = 360; // cet angle peut varier selon les situations
 
 	public List<Float> detecterPalet(float[] tab, int angle_de_balayage) {
-		List<Float> positions_potentielles = new ArrayList<>();
-		for (int i = 1; i < tab.length - 1; i++) {
+		List<Float> positions_potentielles = new ArrayList<Float>();
+		for (int i = 0; i < tab.length - 1; i++) {
 			if (ecartImp(tab, i) && estDansLaPortee(tab, i)) {
-				positions_potentielles.add((float) (i * angle_de_balayage) / tab.length);
+				positions_potentielles.add((float) i);
 			}
 		}
 		return positions_potentielles;
 	}
-	public void auPalet(float[] tab) {
-	        int angle_de_balayage = 360;
-		float[] distances = f.distanceTourne(angle_de_balayage);
-	        List<Float> positions_potentielles = detecterPalet(distances, angle_de_balayage);
-	        if (!positions_potentielles.isEmpty()) {
-	            avancerVersPalet(tab, positions_potentielles, angle_de_balayage);
-	        } else {
-	            System.out.println("No potential positions found.");
-	        }
-    	}
-	public void avancerVersPalet(float[] tab, List<Float> positions_potentielles, int angle_de_balayage) {
+	public void avancerVersPalet(int angle_de_balayage) {
+		/*
+		 * Fonction qui va aligner le robot vers le palet le plus proche.
+		 */
+		float[] distances = distanceTourne(angle_de_balayage);
+		List<Float> positions_potentielles = detecterPalet(distances, angle_de_balayage);
+		if (!positions_potentielles.isEmpty()) {
+			int i = auPalet(positions_potentielles, angle_de_balayage);
+			m.tourner(i);
+			m.avancer(distances[i]);
+		
+		} else {
+			System.out.println("No potential positions found.");
+		}
+	}
+	public int auPalet(List<Float> positions_potentielles, int angle_de_balayage) {
 		float minimum = positions_potentielles.get(0);
 		for (float i : positions_potentielles) {
 			if (i < minimum) {
 				minimum = i;
 			}
 		}
-		if (minimum <= 180) {
-			m.tourner((int) minimum);
+		float moitie = angle_de_balayage/2;
+		if (minimum <= moitie ){	
+			return (int) minimum;
+		} else {
+			return (int) minimum - 360;
 		}
-		m.tourner((int) minimum - 360);
-		double distance = (double) tab[(int) ((minimum * tab.length) / angle_de_balayage)];
-		m.avancer(distance);
 	}
 
 	public void attraperPalet() {
