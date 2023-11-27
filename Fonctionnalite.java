@@ -32,25 +32,24 @@ public class Fonctionnalite {
 			}
 		m.changerVitRot(45);
 		m.tourner((44 - angle_perp)*4);
-	}
+	}	
 	
-	public boolean ecartImp(float[] tab, int i) {
-		if (Math.abs(tab[i - 1] - tab[i]) > 10 && Math.abs(tab[i] - tab[i + 1]) > 10) {
-			return true;
-		}
-		return false;
+	public void avancerVersPalet(int angle_de_balayage, int delay) {
+		// Premiere méthode qui va orienter le robot vers le palet le plus proche.
+		float[] distances = c.getSample(angle_de_balayage, delay); // On crée un tableau de float avec des distances, sur 120 degres ou 360 en fonction de la situation
+		List<Float> positions_potentielles = detecterPalet(distances, angle_de_balayage);
+		if (!positions_potentielles.isEmpty()) {
+			int i = auPalet(positions_potentielles, angle_de_balayage);
+			m.tourner(angle_de_balayage - i);
+			m.avancer(distances[i]);		
+		} else 
+			System.out.println("No potential positions found.");
 	}
-
-	public boolean estDansLaPortee(float[] tab, int i) {
-		if (tab[i] < 120 && tab[i] > 32) {
-			return true;
-		}
-		return false;
-	}
-
-	int angle_de_balayage = 360; // cet angle peut varier selon les situations
-
-	public List<Float> detecterPalet(float[] tab, int angle_de_balayage) {
+	public List<Float> detecterPalet(float[] tab) {
+		/*
+  		* Méthode qui d'après le tableau de distances va chercher les mesures qui sont potentiellement des palets
+    		* Il existera deux méthodes pour isoler les potentiels palets, leur distance au capteur(estDansLaPortee) et la distance entre les mesures(ecartImp).
+    		*/
 		List<Float> positions_potentielles = new ArrayList<Float>();
 		for (int i = 0; i < tab.length - 1; i++) {
 			if (ecartImp(tab, i) && estDansLaPortee(tab, i)) {
@@ -59,18 +58,17 @@ public class Fonctionnalite {
 		}
 		return positions_potentielles;
 	}
-	public void avancerVersPalet(int angle_de_balayage, int delay) {
-		// Fonction qui va aligner le robot vers le palet le plus proche.
-		float[] distances = c.getSample(angle_de_balayage, delay);
-		List<Float> positions_potentielles = detecterPalet(distances, angle_de_balayage);
-		if (!positions_potentielles.isEmpty()) {
-			int i = auPalet(positions_potentielles, angle_de_balayage);
-			m.tourner(i);
-			m.avancer(distances[i]);
-		
-		} else {
-			System.out.println("No potential positions found.");
-		}
+	
+	public boolean ecartImp(float[] tab, int i) {
+		// Si la distance deux à deux entre les mesures (1 mesure par angle)  est supérieur à 10 cm, on le classe dans la catégorie des palets potentielles
+		if (Math.abs(tab[i - 1] - tab[i]) > 10 && Math.abs(tab[i] - tab[i + 1]) > 10) return true;
+		return false;
+	}
+
+	public boolean estDansLaPortee(float[] tab, int i) {
+		// Les palets ne sont détectés qu'entre 32 et 120 cm, on trie donc les mesures en conséquence. 
+		if (tab[i] < 120 && tab[i] > 32) return true;
+		return false;
 	}
 	public int auPalet(List<Float> positions_potentielles, int angle_de_balayage) {
 		float minimum = positions_potentielles.get(0);
@@ -88,7 +86,6 @@ public class Fonctionnalite {
 	}
 
 	public void attraperPalet() {
-		c.getTouche();
 		SampleProvider touchProvider = c.getTouche().getTouchMode();
 
 		float[] sample = new float[touchProvider.sampleSize()];
@@ -96,18 +93,15 @@ public class Fonctionnalite {
 		m.ouvrirPinces(1600);
 		m.changerVitLin(100);
 		m.avancer(60);
-		while (!Button.ENTER.isDown()) {
+		while (!Button.ENTER.isDown() && sample[0] == 1.00) {
 			touchProvider.fetchSample(sample, 0);
-			if (sample[0] == 1.00) {
-				m.fermerPinces(1600);
-				break;
-			}
 			try {
-				Thread.sleep(1000); // Attendez 1 seconde
+				Thread.sleep(500); // Attendez 1 seconde
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		m.fermerPinces(1600);
 	}
 
 	public void versPalet(float seuilDetection) { // a voir quelle méthode est la meilleure
