@@ -197,12 +197,6 @@ public class Fonctionnalite {
 		}
 	}
 
-	public float[] creation_tab() {
-		m.changerVitRot(36);
-		m.tournerSync(180);
-		return c.getSample(10);
-	}
-
 	/*
 	 * public void ramenePalet() { une fois le palet récupéré, le ramène dans le
 	 * camp rotateTo (180° - (angle du palet) + 90°) Ensuite avance jusqu'à détecter
@@ -220,7 +214,7 @@ public class Fonctionnalite {
 			if (colorID == 6)
 				break;
 			try {
-				Thread.sleep(250); // Attendre 0,25 seconde entre les mesures
+				Thread.sleep(250); // 0,25 seconde entre les mesures
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
