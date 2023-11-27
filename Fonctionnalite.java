@@ -17,6 +17,19 @@ public class Fonctionnalite {
 		c = new Capteur();
 	}
 
+	public void premier_palet() {
+		// Méthode qui marque le premier palet
+		m.avancerSync(60); m.ouvrirPinces(1200); m.stop();
+		m.fermerPinces(1200);
+		m.tourner(90); m.avancer(15); m.tourner(-80); 
+		m.avancer(190);
+		m.ouvrirPinces(1200); m.avancer(-30); m.fermerPinces(1200);
+		m.tourner(-m.getDirection()); 
+		Delay.msDelay(2000);
+		m.tourner(120);
+	}
+
+	
 	public void perp_apres_essai() { 
 		// Ce programme oriente le robot perpendiculaire au mur 
 		m.tourner(90);
