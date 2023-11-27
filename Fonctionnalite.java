@@ -17,65 +17,23 @@ public class Fonctionnalite {
 		c = new Capteur();
 	}
 
-	public void perpendiculaire_apres_essai() {
-
-		float d1, d2;
-		m.changerVitRot(90);
-		d1 = c.echantillon();
-		m.tourner(ANGLE_BALAYAGE);
-		Delay.msDelay(200);
-		d2 = c.echantillon();
-		System.out.println("d1 = " + d1 + " d2 = " + d2);
-		Delay.msDelay(1000);
-		if (d1 > d2) {
-			System.out.print("continue dans le meme sens");
-			m.tournerSync(90);
-			d1 = d2;
-			d2 = c.echantillon();
-			System.out.println("d1 = " + d1 + " d2 = " + d2);
-			while (d1 >= d2) {
-				System.out.print("Rentre dans la boucle");
-				Delay.msDelay(250);
-				d1 = d2;
-				d2 = c.echantillon();
-				System.out.println("d1 = " + d1 + " d2 = " + d2);
+	public void perp_apres_essai() { 
+		// Ce programme oriente le robot perpendiculaire au mur 
+		m.tourner(90);
+		m.changerVitRot(15);
+		m.tournerSync(-180);
+		float[] tableau = c.getSample(45, 250);
+		int angle_perp = 0;
+		float min = tableau[0]; // On initialise min avec la première valeur du tableau
+		for (int i = 1; i < tableau.length; i++)
+			if (tableau[i] < min) {
+				angle_perp = i;
+				min = tableau[i]; // Si on trouve une valeur plus petite, on met à jour min
 			}
-			m.stop();
-			Delay.msDelay(40000);
-		} else {
-			System.out.print("Change de sens");
-			m.tournerSync(-90);
-			Delay.msDelay(500);
-			d1 = d2;
-			d2 = c.echantillon();
-			while (d1 > d2) {
-				System.out.print("Rentre dans la boucle");
-				Delay.msDelay(250);
-				d1 = d2;
-				d2 = c.echantillon();
-			}
-
-			m.stop();
-			Delay.msDelay(40000);
-		}
-	} 
-	
-		public float[] distanceTourne(int angle_de_balayage) {
-		/*
-		 * Creer un set de données sur (angle_de_balayage) degrés et 
-		 * générer des données tous les (delay) millisecondes
-		 */
-		m.changerVitRot(5);
-		m.tournerSync(angle_de_balayage);
-		float[] distances = new float[angle_de_balayage];
-		int i = 0;
-		while(m.isMoving()) {
-			distances[i] = c.echantillon();
-			Delay.msDelay(200);
-			i++;
-		}
-		return distances;
+		m.changerVitRot(45);
+		m.tourner((44 - angle_perp)*4);
 	}
+	
 	public boolean ecartImp(float[] tab, int i) {
 		if (Math.abs(tab[i - 1] - tab[i]) > 10 && Math.abs(tab[i] - tab[i + 1]) > 10) {
 			return true;
@@ -101,11 +59,9 @@ public class Fonctionnalite {
 		}
 		return positions_potentielles;
 	}
-	public void avancerVersPalet(int angle_de_balayage) {
-		/*
-		 * Fonction qui va aligner le robot vers le palet le plus proche.
-		 */
-		float[] distances = distanceTourne(angle_de_balayage);
+	public void avancerVersPalet(int angle_de_balayage, int delay) {
+		// Fonction qui va aligner le robot vers le palet le plus proche.
+		float[] distances = c.getSample(angle_de_balayage, delay);
 		List<Float> positions_potentielles = detecterPalet(distances, angle_de_balayage);
 		if (!positions_potentielles.isEmpty()) {
 			int i = auPalet(positions_potentielles, angle_de_balayage);
@@ -154,32 +110,6 @@ public class Fonctionnalite {
 		}
 	}
 
-	public void detectionPalet() {
-		float distanceDetectee;
-		m.changerVitLin(20);
-		m.avancerSync(300);
-
-		do {
-			distanceDetectee = c.echantillon();
-			System.out.println(distanceDetectee * 100);
-		} while (distanceDetectee * 100 > 30 | Button.ENTER.isDown() | m.isMoving());
-		m.stop();
-
-		m.ouvrirPinces(1600);
-		System.out.println("palet detecte");
-		while (!Button.ENTER.isDown()) {
-			if (c.echantillon() == 1.00) {
-				m.fermerPinces(1600);
-				break;
-			}
-
-		}
-		m.avancerSync(60);
-		m.fermerPinces(1600);
-		Delay.msDelay(500);
-
-	}
-
 	public void versPalet(float seuilDetection) { // a voir quelle méthode est la meilleure
 		while (true) {
 			float distanceDetectee = c.echantillon();
@@ -190,7 +120,6 @@ public class Fonctionnalite {
 						m.fermerPinces(1600);
 						break;
 					}
-
 				}
 				Delay.msDelay(500);
 			}
@@ -206,23 +135,21 @@ public class Fonctionnalite {
 	 * vers_ligne_arrivee(); }
 	 */
 	public void vers_ligne_arrivee() {
-		if (!c.getCapcouleur().isFloodlightOn()) // teste si la lampe est allumée
-			c.getCapcouleur().setFloodlight(true);
-		while (true) {
-			m.avancerSync(100);
-			int colorID = c.getCapcouleur().getColorID();
-			if (colorID == 6)
-				break;
-			try {
-				Thread.sleep(250); // 0,25 seconde entre les mesures
-			} catch (InterruptedException e) {
+		if(! c.couleur.isFloodlightOn())  // teste si la lampe est allumée
+			c.couleur.setFloodlight(true);
+		m.changerVitLin(45);
+		m.avancerSync(300);
+		int colorID = c.couleur.getColorID();
+		while (colorID!=6 && !Button.ENTER.isDown()) {
+			System.out.print(colorID);
+			colorID = c.couleur.getColorID();
+			try {Thread.sleep(100);}
+			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if (Button.ENTER.isDown())
-				break;
 		}
 		m.stop();
-		c.getCapcouleur().close();
+		c.couleur.close();
 	}
 
 	public static void main(String[] args) {
