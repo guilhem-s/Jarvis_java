@@ -3,17 +3,17 @@ package S5;
 import lejos.hardware.Button;
 
 public class Surveillance {
+	// Utilisation de thread pour récupérer données en parallèle de méthodes
     private Thread surveillanceBoutonThread;
 
-    // Méthode pour lancer la surveillance du bouton
+    
     public void lancerSurveillanceBouton() {
         surveillanceBoutonThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
-                    if (Button.ESCAPE.isDown()) {
-                        System.exit(0);}
-                    // Pause courte
+                    if (Button.ESCAPE.isDown())  System.exit(0);
+                    // Pause courte pour éviter surcharge
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
@@ -31,5 +31,4 @@ public class Surveillance {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }}
-}
+        }}}
