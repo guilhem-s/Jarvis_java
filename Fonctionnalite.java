@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lejos.utility.Delay;
 
-public class test {
+public class Fonctionnalite {
 	Moteur m;
 	Capteur c;
 	boolean arreter;
