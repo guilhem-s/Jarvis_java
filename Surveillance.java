@@ -10,9 +10,8 @@ public class Surveillance {
         surveillanceBoutonThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (Fonctionnalite.enCours) {
+                while (true) {
                     if (Button.ESCAPE.isDown()) {
-                        Fonctionnalite.enCours = false;
                         System.exit(0);}
                     // Pause courte
                     try {
