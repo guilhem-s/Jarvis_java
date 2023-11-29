@@ -18,8 +18,8 @@ public class Capteur {
 		ultrason = new EV3UltrasonicSensor(SensorPort.S4);
 		toucher = new EV3TouchSensor(SensorPort.S3);
 		couleur = new EV3ColorSensor(SensorPort.S2);
-
 	}
+	
 	public EV3TouchSensor getTouche() { return toucher;	}
 	public EV3UltrasonicSensor getUltrason() { return ultrason;	}
 	public EV3ColorSensor getCouleur() { return couleur; }
