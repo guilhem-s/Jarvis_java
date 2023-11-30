@@ -13,6 +13,7 @@ public class Test {
 		Surveillance surveillance = new Surveillance();
 		surveillance.lancerSurveillanceBouton();
 		f.troisPremiers();
+		f.ligneCentrale();
 
         surveillance.attendreFinSurveillance();	 
 		}

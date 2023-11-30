@@ -64,12 +64,12 @@ public class Moteur {
 	}
 	public void avancer(double distance) {
 		pilot.travel(distance);
-		direction += distance/20;
+		direction += distance/40;
 		direction= direction%360;
 	}
 	public void avancerSync(double distance) {
 		pilot.travel(distance, true);
-		direction += distance/20;
+		direction += distance/40;
 		direction= direction%360;
 	}
 	public void ouvrirPinces(int angle) {
@@ -107,6 +107,6 @@ public class Moteur {
 	 public static void main(String[] args) {
 		 Moteur m = new Moteur();
 		 m.pincesOuvertes=true;
-		 m.fermerPinces(2300);
+		 m.fermerPinces(200);
 	 }
 }

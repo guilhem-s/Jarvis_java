@@ -77,60 +77,195 @@ public class Fonctionnalite {
     }
 	}
 	
-	public void troisPremiers() {
-
+	public void ligneNoire() {
 		SampleProvider distanceProvider = this.c.getUltrason().getDistanceMode(); 
 		float[] sample = new float[distanceProvider.sampleSize()];
+		float murDroit=0;
+		int i=0;
+		m.tourner(-m.getDirection());
+		Delay.msDelay(500);
+		m.tourner(-20);
+		ArrayList<Float> mur = new ArrayList<Float>();
+		double min=300;
+		m.tournerSync(40); 
+		while(m.isMoving()) {
+			distanceProvider.fetchSample(sample, 0); mur.add(sample[0] * 100);
+		}
+		  				for(int j=0; j<mur.size();j++) {
+		  					if(mur.get(j) < min) { min=mur.get(j); i=j; }
+		  				}
+		m.tourner(-40+i*40.000/mur.size()+5);
+		m.tourner(90);
+		Delay.msDelay(500);
+		distanceProvider.fetchSample(sample, 0); //Convertir en centimètres 
+		murDroit=sample[0]*100;
+		
+		m.avancer(murDroit-100); //-87
+		m.tourner(90);
+	}
+	
+	public void troisPremiers() {
+//
+//		SampleProvider distanceProvider = this.c.getUltrason().getDistanceMode(); 
+//		float[] sample = new float[distanceProvider.sampleSize()];
 		 m.avancerSync(60); m.ouvrirPinces(1200); m.stop();
 		 m.fermerPinces(1200);
-		// hasPalet=true;
-		 m.tourner(100); m.avancer(20); m.tourner(-110); 
+		 m.tourner(100); m.avancer(20); m.tourner(-100); 
 		 this.vers_ligne_arrivee(6);
 		 m.ouvrirPinces(1200);
 		 cpt_palet++;
+		 m.avancer(-10); m.fermerPinces(1200); 
 			 
-		 
-
 		while(cpt_palet<3) {
-			 m.avancer(-30); m.fermerPinces(1200); //hasPalet=false;
-			 m.tourner(-m.getDirection()); 
-			 Delay.msDelay(2000);
-			 m.tourner(120);	
-			m.changerVitRot(36);
+			 if(cpt_palet!=1) m.avancer(-10); m.fermerPinces(1200); 
+			 this.ligneNoire();
+			 m.avancer(-10);
+			 this.perpPalet();
+			 m.tourner(-m.getDirection());
+			 this.vers_ligne_arrivee(6);
+		}
+	}
+//			 m.tourner(-m.getDirection());//hasPalet=false;
+//			 m.tourner(-60);
+//				ArrayList<Float> mur = new ArrayList<Float>();
+//				int index=0;
+//				double min=300;
+//				float murDroit=0;
+//				m.tournerSync(120);
+//				while(m.isMoving()) {
+//				distanceProvider.fetchSample(sample, 0); mur.add(sample[0] * 100);
+//				  				for(int j=0; j<mur.size();j++) {
+//				  					if(mur.get(j) < min) { min=mur.get(j); index=j; }
+//				}
+//				  				}
+//				m.tourner(-60+index*60.000/mur.size()+5);
+//				m.tourner(90);
+//				Delay.msDelay(1000);
+//				distanceProvider.fetchSample(sample, 0); //Convertir en centimètres 
+//				murDroit=sample[0]*100;
+//				m.avancer(murDroit-100);
+//			 Delay.msDelay(2000);
+//			 m.tourner(20);	
+			 		 
+//			m.changerVitRot(36);
+//		int i = 0;
+//			
+//		ArrayList<Float> samples = new ArrayList<Float>();
+//		  m.tournerSync(140); while(m.isMoving()) {
+//			  distanceProvider.fetchSample(sample, 0); samples.add(sample[0] * 100); //Convertir en centimètres 
+//			  System.out.println(i+"- "+samples.get(i)); i++; }
+//			  
+//			  double minPalet=120;
+//		
+//			  for(int j=0; j<samples.size();j++) {
+//				  if(samples.get(j) < minPalet && samples.get(j) >= 32) { minPalet=samples.get(j); i=j; }
+//			  }
+//			  System.out.println("minimum :" +minPalet); Delay.msDelay(3000);
+//			  System.out.println("size : " + samples.size()); Delay.msDelay(3000);
+//			  System.out.println("premier : "+ samples.get(0)); Delay.msDelay(3000);
+//
+//			  m.changerVitRot(90);
+//			  //if(i<=180) { m.tourner(i); }else m.tourner(i-360);
+//			  m.tourner(-120+i*120.000/samples.size()+5);
+			  
+//			  System.out.println("en avance");
+//			  m.ouvrirPinces(1200);
+//			  m.avancer(minPalet);
+//			  while(m.isMoving()) {
+//			  			float distance=120;
+//			  			distanceProvider.fetchSample(sample, 0);  //Convertir en centimètres 
+//			  			distance=sample[0];
+//			  			if(distance<32)m.stop();
+//			  }
+//			  m.fermerPinces(1200);
+//			  m.tourner(-m.getDirection());
+//			  this.vers_ligne_arrivee(6);
+//			  m.ouvrirPinces(1200);
+//			  cpt_palet++;
+//			  System.out.println(cpt_palet);
+//			  Delay.msDelay(2000);
+//			  }
+	
+	public void perpPalet() {
+		SampleProvider distanceProvider = this.c.getUltrason().getDistanceMode(); 
+		float[] sample = new float[distanceProvider.sampleSize()];
+		m.tourner(-55);
+		m.changerVitRot(36);
 		int i = 0;
 			
 		ArrayList<Float> samples = new ArrayList<Float>();
-		  m.tournerSync(120); while(m.isMoving()) {
+		  m.tournerSync(110); while(m.isMoving()) {
 			  distanceProvider.fetchSample(sample, 0); samples.add(sample[0] * 100); //Convertir en centimètres 
 			  System.out.println(i+"- "+samples.get(i)); i++; }
 			  
-			  double min=120;
+			  double minPalet=120;
 		
 			  for(int j=0; j<samples.size();j++) {
-				  if(samples.get(j) < min && samples.get(j) >= 32) { min=samples.get(j); i=j; }
+				  if(samples.get(j) < minPalet && samples.get(j) >= 32) { minPalet=samples.get(j); i=j; }
 			  }
-			  System.out.println("minimum :" +min); Delay.msDelay(3000);
+			  System.out.println("minimum :" +minPalet); Delay.msDelay(3000);
 			  System.out.println("size : " + samples.size()); Delay.msDelay(3000);
 			  System.out.println("premier : "+ samples.get(0)); Delay.msDelay(3000);
 
 			  m.changerVitRot(90);
 			  //if(i<=180) { m.tourner(i); }else m.tourner(i-360);
-			  m.tourner(-120+i*120.000/samples.size()+10);
-			  
-			  System.out.println("en avance");
+			  m.tourner(-110+i*110.000/samples.size());
 			  m.ouvrirPinces(1200);
-			  m.avancer(min);
-			  m.stop();
+			  m.avancer(minPalet);
 			  m.fermerPinces(1200);
-			  m.tourner(-m.getDirection());
-			  this.vers_ligne_arrivee(6);
-			  m.ouvrirPinces(1200);
-			  cpt_palet++;
-			  System.out.println(cpt_palet);
-			  Delay.msDelay(2000);
-			  }
-		
 	}
+	
+	
+	public void ligneCentrale() {
+		
+	
+		while(cpt_palet<6) {
+		m.avancer(-10);
+		m.fermerPinces(1200);
+		this.ligneNoire();
+		 m.avancer(45);// ou 50
+		 this.perpPalet();
+		 m.tourner(-m.getDirection());
+		 this.vers_ligne_arrivee(6);}}
+//		m.tourner(-20);
+//		ArrayList<Float> samples = new ArrayList<Float>();
+//		m.tournerSync(40); 
+//		double min=300;
+//		  				for(int j=0; j<samples.size();j++) {
+//		  					if(samples.get(j) < min) { min=samples.get(j); i=j; }
+//		  				}
+//		m.tourner(-40+i*40.000/samples.size()+5);
+//		m.tourner(90);
+//		distanceProvider.fetchSample(sample, 0); //Convertir en centimètres 
+//		murDroit=sample[0]*100;
+//		
+//		m.avancer(murDroit-87);
+//		m.tourner(90);
+//		m.avancer(50);
+//		m.tourner(60);
+		
+//		ArrayList<Float> palets = new ArrayList<Float>();
+//		m.tournerSync(-120); 
+//		double minPalet=120;
+//		  		while(m.isMoving()) {
+//		  			distanceProvider.fetchSample(sample, 0); palets.add(sample[0] * 100); //Convertir en centimètres 
+//		  			
+//		
+//		  				for(int j=0; j<samples.size();j++) {
+//		  					if(samples.get(j) < minPalet  && samples.get(j) >= 32) { minPalet=samples.get(j); i=j; }
+//		  				}
+//		  			}
+//		m.tourner(+120-i*120.000/palets.size()-20);
+//		m.ouvrirPinces(1200);
+//		m.avancer(minPalet+30);
+//		m.fermerPinces(1200);
+//		m.tourner(-m.getDirection());
+//		this.vers_ligne_arrivee(6);
+//		  m.ouvrirPinces(1200);
+//		  cpt_palet++;
+//		  System.out.println(cpt_palet);
+//		  Delay.msDelay(2000);
+//	}
 	
 	//--------------
 	public void perp() {
