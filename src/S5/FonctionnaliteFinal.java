@@ -132,7 +132,8 @@ public class Fonctionnalite {
 			d = c.echantillon(100);
 		} while (d != minPalet);
 		m.stop();
-		long tempsEcoule = System.currentTimeMillis()- tempsDebutRot;
+		float tempsEcoule = (float) (System.currentTimeMillis()- tempsDebutRot);
+		m.setDirection(m.getDirection() + tempsEcoule/1000):
 		m.ouvrirPinces(1200);
 		m.avancer(minPalet + 5);
 		m.fermerPinces(1200);
