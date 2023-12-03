@@ -77,7 +77,6 @@ public class Fonctionnalite {
 		// Boucle qui récupére les trois premiers palets en prenant en compte que l'équipe adverse récupère un palet
 		
 		premier_palet();
-		System.out.println(cpt_palet);
 		
 		while(cpt_palet<3) {
 			// boucle qui récupère les 2 autres palets restants de la ligne la plus proche de la zone d'en-buts
