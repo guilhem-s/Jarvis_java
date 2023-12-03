@@ -126,14 +126,14 @@ public class Fonctionnalite {
 			if(samples.get(j) < minPalet && samples.get(j) >= 32) { minPalet=samples.get(j);}
 		}
 		System.out.println("minimum :" +minPalet); Delay.msDelay(3000);
-		tempsDebutRot = System.currentTimeMillis();
+		float tempsDebutRot = System.currentTimeMillis();
 		m.tournerSync(-110);
 		do {
 			d = c.echantillon(100);
 		} while (d != minPalet);
 		m.stop();
-		float tempsEcoule = (float) (System.currentTimeMillis()- tempsDebutRot);
-		m.setDirection(m.getDirection() + tempsEcoule/1000):
+		float tempsEcoule = System.currentTimeMillis()- tempsDebutRot;
+		m.setDirection(m.getDirection() - tempsEcoule/1000);
 		m.ouvrirPinces(1200);
 		m.avancer(minPalet + 5);
 		m.fermerPinces(1200);
