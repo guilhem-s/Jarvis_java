@@ -47,13 +47,13 @@ public class Capteur {
 		return echantillon;
 		}
 	
-	public ArrayList<Integer> echantillon_en_tournant(Moteur m, int angle_de_balayage, int precision) {
+	public ArrayList<Integer> echantillon_en_tournant(Moteur m, int angle_de_balayage, int precision, vitesse) {
 
 		int i = 0;
 		final SampleProvider sp = ultrason.getDistanceMode();
 		float[] sample = new float[sp.sampleSize()];
 		ArrayList<Integer> distanceValue = new ArrayList<Integer>();
-		m.changerVitRot(36);
+		m.changerVitRot(vitesse);
 		m.tournerSync(angle_de_balayage);
 		while(m.isMoving()) {
 			sp.fetchSample(sample, 0); 
