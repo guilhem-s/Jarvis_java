@@ -23,7 +23,6 @@ public class Moteur {
 	private float direction =0;
 	private boolean pincesOuvertes=false;
 	
-
 	public Moteur () {
 		Wheel roue1 = WheeledChassis.modelWheel((RegulatedMotor)Motor.B,DIAMETRE ).offset(-6.2);
 		Wheel roue2 = WheeledChassis.modelWheel((RegulatedMotor)Motor.A, DIAMETRE).offset(6.2);
