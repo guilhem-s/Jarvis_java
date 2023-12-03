@@ -22,13 +22,13 @@ public class Fonctionnalite {
 		m.avancerSync(300);
 		int colorID=-1;
 		while (colorID!= couleur && !Button.ENTER.isDown()) {
-			System.out.print(colorID);
 			colorID = c.getCouleur().getColorID();
 			try {Thread.sleep(100);}
 			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+		}		
+		System.out.println(colorID);
 		m.stop();
 	}
 
