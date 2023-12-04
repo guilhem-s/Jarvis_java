@@ -126,7 +126,7 @@ public class Fonctionnalite {
 		}
 		System.out.println("minimum :" +minPalet); Delay.msDelay(3000);
 		float tempsDebutRot = System.currentTimeMillis();
-		m.rotateTo(-110, true);
+		m.rotate(-110, true);
 		do {
 			d = c.echantillon(100);
 		} while (d != minPalet);
