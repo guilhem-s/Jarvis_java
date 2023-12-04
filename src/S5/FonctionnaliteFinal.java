@@ -36,7 +36,7 @@ public class Fonctionnalite {
 	public void perp_apres_essai() {
 		int d;
 		m.tourner(-60);
-		ArrayList<Integer> mur = c.echantillon_en_tournant(m, 140, 10000, 20);
+		ArrayList<Integer> mur = c.echantillon_en_tournant(m, 140, 10000, 36;
 		int min = mur.get(0); // On initialise min avec la première valeur du tableau
 		for(int j=0; j<mur.size();j++) { if(mur.get(j) < min) { min=mur.get(j); }}		
 		m.tournerSync(-140);
@@ -118,7 +118,7 @@ public class Fonctionnalite {
 		// Place le robot face au palet et puis fait avancer le robot pour l'attraper
 		int d;
 		m.tourner(-55);
-		ArrayList<Integer> samples = c.echantillon_en_tournant(m, 110, 100);
+		ArrayList<Integer> samples = c.echantillon_en_tournant(m, 110, 100, 20);
 		double minPalet=120;
 
 		for(int j=0; j<samples.size();j++) {
@@ -126,16 +126,19 @@ public class Fonctionnalite {
 		}
 		System.out.println("minimum :" +minPalet); Delay.msDelay(3000);
 		float tempsDebutRot = System.currentTimeMillis();
-		m.tournerSync(-110);
+		m.rotate(-110, true);
 		do {
 			d = c.echantillon(100);
 		} while (d != minPalet);
 		m.stop();
 		float tempsEcoule = System.currentTimeMillis()- tempsDebutRot;
-		m.setDirection(m.getDirection() - tempsEcoule/1000);
+		System.out.print(m.getdirection()); Delay.msDelay(3000);
+		m.setDirection(m.getDirection() - (20 * tempsEcoule / 1000));
+		System.out.print(m.getdirection()); Delay.msDelay(3000);
 		m.ouvrirPinces(1200);
 		m.avancer(minPalet + 5);
 		m.fermerPinces(1200);
+		m.changerVitRot(60);
 	}
 
 	public void ligneCentrale() {
@@ -145,7 +148,7 @@ public class Fonctionnalite {
 			m.fermerPinces(1200);
 			ligneNoire();
 			m.avancer(45);// ou 50
-			facePalet();
+			facePalet2();
 			m.tourner(-m.getDirection());
 			vers_couleur(6);
 			m.ouvrirPinces(1200);
