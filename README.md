@@ -21,7 +21,7 @@ Ce repository contient le code source et ressources pour un programme Java const
 - **.settings/:** Contient généralement des fichiers de configuration spécifiques à l'IDE (Environnement de Développement Intégré). Dans le cas d'Eclipse, par exemple, ce dossier peut inclure des paramètres spécifiques au projet, des préférences et des métadonnées.
 - **.bin/:** Est souvent utilisé pour stocker le bytecode compilé (fichiers .class) généré lors du processus de construction.
 
-## Compétition
+## Competition
 Nous avons été classés deuxième de la promo, après avoir décroché la 1ère place à la phase de poules et avoir remporté la demi-finale à un score énorme.
 Nous avons mené le score tout au long de la finale, mais avons encaissé un but aux derniers moments du match.
 
