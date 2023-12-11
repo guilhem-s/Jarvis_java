@@ -23,6 +23,8 @@ Ce repository contient le code source et ressources pour un programme Java const
 
 ## Compétition
 Nous avons été classés deuxième de la promo, après avoir décroché la 1ère place à la phase de poules et avoir remporté la demi-finale à un score énorme.
+Nous avons mené le score tout au long de la finale, mais avons encaissé un but aux derniers moments du match.
+
 ![alt text](https://github.com/guilhem123Z/Jarvis_java/blob/main/Classement.jpg)
 
 ## Authors
