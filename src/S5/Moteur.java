@@ -8,6 +8,10 @@ import lejos.robotics.chassis.WheeledChassis;
 import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.chassis.*;
 
+
+ /**
+ * La classe Moteur
+ */ 
 public class Moteur {
 	
 	private static final double DIAMETRE = 5.6;
@@ -16,59 +20,159 @@ public class Moteur {
 	private boolean pincesOuvertes=false;
 	
 
-	public void setPincesOuvertes(boolean pincesOuvertes) {
+
+/** 
+ *
+ * Affecte le parametres à l'attribut pincesOuvertes
+ *
+ * @param pincesOuvertes  true si les pinces sont ouverts, false sinon. 
+ */
+	public void setPincesOuvertes(boolean pincesOuvertes) { 
+
 		this.pincesOuvertes = pincesOuvertes;
 	}
 
-	public Moteur () {
+
+/** 
+ *
+ * C'est un constructeur. 
+ *
+ */
+	public Moteur () { 
+
 		Wheel roue1 = WheeledChassis.modelWheel((RegulatedMotor)Motor.B,DIAMETRE ).offset(-6.2);
 		Wheel roue2 = WheeledChassis.modelWheel((RegulatedMotor)Motor.A, DIAMETRE).offset(6.2);
 		Chassis chassis = new WheeledChassis(new Wheel[] {roue1, roue2}, WheeledChassis.TYPE_DIFFERENTIAL);
 		pilot = new MovePilot(chassis);
 	}
 	
-	public MovePilot getPilot() {
+
+/** 
+ *
+ * Renvoie l'objet MovePilot
+ *
+ * @return pilot
+ */
+	public MovePilot getPilot() { 
+
 		return pilot;
 	}
 	
-	public void tourner(double angle) {
+
+/** 
+ *
+ * tourne de l'angle passé en params en degrès
+ *
+ * @param angle  l'angle de rotation. 
+ */
+	public void tourner(double angle) { 
+
 		pilot.rotate(angle);
 		direction += angle;	
 		direction= direction%360;
 	}
 	
-	public void tournerSync(double angle) {
+
+/** 
+ *
+ * rotation asynchrone de l'angle en parametères
+ *
+ * @param angle l'angle de rotation. 
+ */
+	public void tournerSync(double angle) { 
 		pilot.rotate(angle, true);
 		direction += angle;
 		direction= direction%360;
 	}
-	public float getDirection() {
+
+/** 
+ *
+ * renvoie la direction, 0 si le but adverse est à 0° du robot
+ *
+ * @return the direction en degrès
+ */
+	public float getDirection() { 
+
 		return direction;
 	}
 
-	public void setDirection(float direction) {
+
+/** 
+ *
+ * Affecte le param à l'attribut direction
+ *
+ * @param direction  la direction en degrès. 
+ */
+	public void setDirection(float direction) { 
+
 		this.direction = direction;
 	}
-	public void changerVitLin(double s) {
+
+/** 
+ *
+ * Change la vitesse linéaire
+ *
+ * @param s  vitesse en degrès par seconde. 
+ */
+	public void changerVitLin(double s) { 
+
 		pilot.setLinearSpeed(s);
 	}
-	public void changerVitRot(double s) {
+
+/** 
+ *
+ * Change la vitesse de rotation
+ *
+ * @param s  vitesse de rotation en degrès par seconde 
+ */
+	public void changerVitRot(double s) { 
+
 		pilot.setAngularSpeed(s);
 	}
-	public void forward() {
+
+/** 
+ *
+ * Avance
+ *
+ */
+	public void forward() { 
 		pilot.forward();
 	}
-	public void avancer(double distance) {
+
+/** 
+ *
+ * Avance de la distance en parametres
+ *
+ * @param distance  la distance en cm. 
+ */
+	public void avancer(double distance) { 
+
 		pilot.travel(distance);
 		direction += distance/40;
 		direction= direction%360;
 	}
-	public void avancerSync(double distance) {
+
+/** 
+ *
+ * Avancement asynchrone de la distance en parametres
+ *
+ * @param distance  la distance en cm. 
+ */
+	public void avancerSync(double distance) { 
+
 		pilot.travel(distance, true);
 		direction += distance/40;
 		direction= direction%360;
 	}
-	public void ouvrirPinces(int angle) {
+
+/** 
+ *
+ * ouvre les pinces
+ *
+ * @param angle   angle = 1200 pour écarter les pinces. 
+ */
+	public void ouvrirPinces(int angle) { 
+
 
 	        int vitesseMoteur = 1000;
 	        if(!pincesOuvertes) {
@@ -81,8 +185,14 @@ public class Moteur {
 	        }
 	        Motor.D.stop();
 	    }
-	 public void fermerPinces(int angle) {
 
+/** 
+ *
+ * ferme les pinces 
+ *
+ * @param angle   angle = 1200 pour serrer les pinces. 
+ */
+	 public void fermerPinces(int angle) { 
 	        int vitesseMoteur = 1000;
 	        if(pincesOuvertes) {
 	        Motor.D.setSpeed(vitesseMoteur);
@@ -94,10 +204,25 @@ public class Moteur {
 	        }
 	        Motor.D.stop();
 	    }
-	 public boolean isMoving() {
+	 
+/** 
+ *
+ * renvoie true si le robot est en mouvement, false sinon
+ *
+ * @return boolean 
+ */
+	 public boolean isMoving() { 
+
 		 return pilot.isMoving();
 		 }
-	 public void stop() {
+
+/** 
+ *
+ * Arrete le robot
+ *
+ */
+	 public void stop() { 
+
 		 pilot.stop();
 	 }
 }

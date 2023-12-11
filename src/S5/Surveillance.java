@@ -2,14 +2,28 @@ package S5;
 
 import lejos.hardware.Button;
 
+
+ /**
+ * The class Surveillance
+ */ 
 public class Surveillance {
     private Thread surveillanceBoutonThread;
+/** 
+ *
+ * Lancer la surveillance du bouton
+ *
+ */
+    public void lancerSurveillanceBouton() { 
 
-    // Méthode pour lancer la surveillance du bouton
-    public void lancerSurveillanceBouton() {
         surveillanceBoutonThread = new Thread(new Runnable() {
             @Override
-            public void run() {
+/** 
+ *
+ * Run
+ *
+ */
+            public void run() { 
+
                 while (true) {
                     if (Button.ESCAPE.isDown()) {
                         System.exit(0);}
@@ -22,9 +36,13 @@ public class Surveillance {
                 }}});
         surveillanceBoutonThread.start();
     }
+/** 
+ *
+ * Methode pour attendre que les threads de surveillance se terminent
+ *
+ */
+    public void attendreFinSurveillance() { 
 
-    // Méthode pour attendre que les threads de surveillance se terminent
-    public void attendreFinSurveillance() {
         try {
             if (surveillanceBoutonThread != null) {
                 surveillanceBoutonThread.join();

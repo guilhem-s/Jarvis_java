@@ -5,6 +5,10 @@ import lejos.hardware.Button;
 import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 
+
+ /**
+ * La classe Fonctionnalite
+ */ 
 public class Fonctionnalite {
 	Moteur m;
 	Capteur c;
@@ -12,12 +16,27 @@ public class Fonctionnalite {
 	 int cpt_palet=0;
 
 	
-	public Fonctionnalite() {
+
+/** 
+ *
+ * C'est un constructeur 
+ *
+ */
+	public Fonctionnalite() { 
+
 		m = new Moteur();
 		c = new Capteur();
 	}
 	
-	public void avancerSurveille(double d) {
+
+/** 
+ *
+ * Avance la distance en paramètres en évitant les obstacles à 15cm devant lui
+ *
+ * @param d  la distance en cm. 
+ */
+	public void avancerSurveille(double d) { 
+
 		SampleProvider distanceProvider = c.getUltrason().getDistanceMode();
 		float[] sample = new float[distanceProvider.sampleSize()];
 		m.avancerSync(d);
@@ -33,8 +52,16 @@ public class Fonctionnalite {
 		}
 	}
 	
-	public void vers_couleur(int couleur ) {
-		if(! c.getCouleur().isFloodlightOn())  // teste si la lampe est allumée
+
+/** 
+ *
+ * Continue à avancer jusqu'à ce qu'il détecte la couleur passée en paramètres
+ *
+ * @param couleur  la couleur sur laquelle on veut qu'il s'arrete 
+ */
+	public void vers_couleur(int couleur ) { 
+
+		if(! c.getCouleur().isFloodlightOn())  // teste si la lampe est allumÃ©e
 			c.getCouleur().setFloodlight(true);
 		m.changerVitLin(30);
 		m.avancerSync(300);
@@ -50,7 +77,14 @@ public class Fonctionnalite {
 		m.stop();
 	}
 	
-	public void attraperPalet() {
+
+/** 
+ *
+ * Attrape un palet quand le capteur de toucher est appuyé
+ *
+ */
+	public void attraperPalet() { 
+
 		c.getTouche();
         SampleProvider touchProvider = c.getTouche().getTouchMode();
 
@@ -72,7 +106,14 @@ public class Fonctionnalite {
     }
 	}
 	
-	public void ligneNoire() {
+
+/** 
+ *
+ * Se met perpendiculaire au but adverser après avoir marqué un point, puis tourne de 90° and avance ou recule à la ligne noire (du milieu) et tourne de 90° pour qu'il soit sur le milieu devant les palets 
+ *
+ */
+	public void ligneNoire() { 
+
 		SampleProvider distanceProvider = this.c.getUltrason().getDistanceMode(); 
 		float[] sample = new float[distanceProvider.sampleSize()];
 		float murDroit=0;
@@ -94,13 +135,20 @@ public class Fonctionnalite {
 		m.tourner(90);
 		m.changerVitRot(36);
 		Delay.msDelay(500);
-		distanceProvider.fetchSample(sample, 0); //Convertir en centimètres 
+		distanceProvider.fetchSample(sample, 0); //Convertir en centimÃ¨tres 
 		murDroit=sample[0]*100;
 		
 		m.avancer(murDroit-87); //-87
 		m.tourner(90);
 	}
-	public void premierPalet() {
+
+/** 
+ *
+ * Premier palet
+ *
+ */
+	public void premierPalet() { 
+
 		m.avancerSync(60); m.ouvrirPinces(1200); m.stop();
 		m.fermerPinces(1200);
 		m.tourner(100); m.avancer(20); m.tourner(-100); 
@@ -109,11 +157,13 @@ public class Fonctionnalite {
 		cpt_palet++;
 		m.avancer(-10); m.fermerPinces(1200); 
 	}
-	public void troisPremiers() {
-//
-//		SampleProvider distanceProvider = this.c.getUltrason().getDistanceMode(); 
-//		float[] sample = new float[distanceProvider.sampleSize()];
-		 
+
+/** 
+ *
+ * 3 premiers palets
+ *
+ */
+	public void troisPremiers() { 
 		premierPalet();
 		while(cpt_palet<3) {
 			 ligneNoire();
@@ -128,7 +178,14 @@ public class Fonctionnalite {
 		}
 	}
 	
-	public void perpPalet() {
+
+/** 
+ *
+ * Se met droit à un palet, puis il avance vers lui et l'attrape
+ *
+ */
+	public void perpPalet() { 
+
 		SampleProvider distanceProvider = this.c.getUltrason().getDistanceMode(); 
 		float[] sample = new float[distanceProvider.sampleSize()];
 		m.tourner(-55);
@@ -137,7 +194,7 @@ public class Fonctionnalite {
 			
 		ArrayList<Float> samples = new ArrayList<Float>();
 		  m.tournerSync(110); while(m.isMoving()) {
-			  distanceProvider.fetchSample(sample, 0); samples.add(sample[0] * 100); //Convertir en centimètres 
+			  distanceProvider.fetchSample(sample, 0); samples.add(sample[0] * 100); //Convertir en centimÃ¨tres 
 			  System.out.println(i+"- "+samples.get(i)); i++; }
 			  
 			  double minPalet=120;
@@ -155,8 +212,15 @@ public class Fonctionnalite {
 	}
 	
 	
-	public void ligneCentrale() {
-		while(cpt_palet<7) {
+
+/** 
+ *
+ * ramasser les 3 palets sur la ligne centrale 
+ *
+ */
+	public void ligneCentrale() { 
+
+		while(cpt_palet<6) {
 		 ligneNoire();
 		 m.avancer(45);
 		 perpPalet();
@@ -166,7 +230,14 @@ public class Fonctionnalite {
 		 m.avancer(-10);
 		 m.fermerPinces(1200);}}
 	
-	public void defense() {
+
+/** 
+ * 
+ * Après avoir marquer 6 palets, le robot commence à avancer et reculer sur la ligne blanche de son camp pour bloquer les robots qui y arrivent avec leurs palets entre les pinces
+ *
+ */
+	public void defense() { 
+
 		ligneNoire();
 		vers_couleur(6);
 		m.tourner(90);
