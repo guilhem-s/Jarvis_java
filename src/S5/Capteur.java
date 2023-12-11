@@ -36,7 +36,6 @@ public class Capteur {
 		return sample[0];
 	}
 
-
 	public float[] getSample(int seuil){
 		 SampleProvider sp = ultrason.getDistanceMode();
 		int distanceValue = 0;
@@ -49,6 +48,5 @@ public class Capteur {
 			Delay.msDelay(500);
 		}
 		return samples;  
-	}
-	
+	}	
 }

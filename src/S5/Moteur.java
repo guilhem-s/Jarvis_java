@@ -1,12 +1,7 @@
 package S5;
 
-import lejos.hardware.BrickFinder;
-import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.motor.Motor;
 import lejos.utility.Delay;
-import lejos.hardware.port.MotorPort;
-import lejos.hardware.port.Port;
-import lejos.hardware.port.SensorPort;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
@@ -15,14 +10,16 @@ import lejos.robotics.chassis.*;
 
 public class Moteur {
 	
-	private static final int RAPIDE = 1000;
-	private static final int LENT = 100;
-	private static final int RECHERCHE = 30;
 	private static final double DIAMETRE = 5.6;
 	private MovePilot pilot;
 	private float direction =0;
 	private boolean pincesOuvertes=false;
 	
+
+	public void setPincesOuvertes(boolean pincesOuvertes) {
+		this.pincesOuvertes = pincesOuvertes;
+	}
+
 	public Moteur () {
 		Wheel roue1 = WheeledChassis.modelWheel((RegulatedMotor)Motor.B,DIAMETRE ).offset(-6.2);
 		Wheel roue2 = WheeledChassis.modelWheel((RegulatedMotor)Motor.A, DIAMETRE).offset(6.2);
@@ -102,10 +99,5 @@ public class Moteur {
 		 }
 	 public void stop() {
 		 pilot.stop();
-	 }
-	 public static void main(String[] args) {
-		 Moteur m = new Moteur();
-		 m.pincesOuvertes=true;
-		 m.fermerPinces(200);
 	 }
 }
