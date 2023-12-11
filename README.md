@@ -23,7 +23,7 @@ Ce repository contient le code source et ressources pour un programme Java const
 
 ## Compétition
 Nous avons été classés deuxième de la promo, après avoir décroché la 1ère place à la phase de poules et avoir remporté la demi-finale à un score énorme.
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/guilhem123Z/Jarvis_java/blob/main/Classement.jpg)
 
 ## Authors
 
